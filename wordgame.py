@@ -17,7 +17,7 @@ h = 750
 
 # Algoritmo para randomizar a posição das palavras na tela
 i_cont = []
-word_pos = [(50, 50), (50, 170), (50, 290), (50, 410), (50, 530), (50, 650)]
+word_pos = [(30, 60), (30, 125), (30, 190), (30, 255), (30, 320), (30,385), (30, 450), (30, 515), (30, 580)]
 random_word_pos = []
 for p in range (len(word_pos)):
     i = randint(0, len(word_pos)-1)
@@ -47,7 +47,7 @@ random_words = []
 random_sprites = []
 
 # Lista de Palavras (PROVISÓRIO)
-easy_words = ('Car', 'Apple', 'Cellphone', 'House', 'Class', 'Door', 'Bike', 'Computer', 'Teacher')
+lista_words = ('Car', 'Apple', 'Cellphone', 'House', 'Class', 'Door', 'Bike', 'Computer', 'Teacher')
 
 # Fonte das Palavras (PROVISÓRIO MAS PODE TER USO DEPOIS)
 font = pygame.font.Font(os.path.join(font_dir ,'rudiment.ttf'), 50)
@@ -55,15 +55,12 @@ font = pygame.font.Font(os.path.join(font_dir ,'rudiment.ttf'), 50)
 # Inicializando tela, plano de fundo e sprites que vão aparecer na tela
 screen = pygame.display.set_mode((w,h))
 background = pygame.image.load(os.path.join(img_dir, 'wordgame_bg.jpg')).convert()
-spritesheet1 = pygame.image.load(os.path.join(img_dir, 'objectSpritesheet.png')).convert_alpha()
+spritesheet = pygame.image.load(os.path.join(img_dir, 'objectSpritesheet.png')).convert_alpha()
 spritesheet2 = pygame.image.load(os.path.join(img_dir, 'wordSpritesheet.png')).convert_alpha()
 
 # Nome da Página, Utilização do Clock para definir FrameRate
 pygame.display.set_caption('Word Game - Aprendendo Inglês')
 clock = pygame.time.Clock()
-
-# Variável que será utilizada para randomizar quais imagens aparecerão na tela
-random_list = True
 
 # Listas  de posições das Imagens dentro da Spritesheet -> subsurface
 car_ss_xy = [(0,0), (0, 100), (0, 200)]
@@ -76,11 +73,25 @@ bike_ss_xy = [(600, 0), (600, 100), (600, 200)]
 computer_ss_xy = [(700, 0), (700, 100), (700, 200)]
 teacher_ss_xy = [(800, 0), (800, 100), (800, 200)]
 
+# Listas  de posições das Palavras dentro da Spritesheet -> subsurface
+carword_ss_xy = [(0,0), (200, 0), (400, 0)]
+appleword_ss_xy = [(0, 60), (200, 60), (400, 60)]
+cellphoneword_ss_xy = [(0, 120), (200, 120), (400, 120)]
+houseword_ss_xy = [(0, 180), (200, 180), (400, 180)]
+classeword_ss_xy = [(0, 240), (200, 240), (400, 240)]
+doorword_ss_xy = [(0, 300), (200, 300), (400, 300)]
+bikeword_ss_xy = [(0, 360), (200, 360), (400, 360)]
+computerword_ss_xy = [(0, 420), (200, 420), (400, 420)]
+teacherword_ss_xy = [(0, 480), (200, 480), (400, 480)]
+
+# Variável que será utilizada para determinar que as spritesheets só serão randomizadas uma ves (Será False depois que o loop for percorrido pela primeira vez)
+random_list = True
+
 # Cursor do Mouse (TESTE)
 class MouseCursor(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = spritesheet1.subsurface((0, 400), (100, 100))
+        self.image = spritesheet.subsurface((0, 400), (100, 100))
         self.rect = self.image.get_rect()
         self.rect.center = (0, 0)
         self.image = pygame.transform.scale(self.image, (50, 50))
@@ -92,200 +103,355 @@ class MouseCursor(pygame.sprite.Sprite):
 class Car(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.object = 'Car'
-        self.image = spritesheet1.subsurface(car_ss_xy[0], (100, 100))
+        self.name = 'Car'
+        self.image = spritesheet.subsurface(car_ss_xy[0], (100, 100))
         self.rect = self.image.get_rect()
         self.rect.center = (random_img_pos[0])
         self.selected = False
 
     def unselect(self):
         self.selected = False
-        self.image = spritesheet1.subsurface(car_ss_xy[0], (100, 100))
+        self.image = spritesheet.subsurface(car_ss_xy[0], (100, 100))
 
     def change_ss(self):
         if self.selected == False:
             self.selected = True
-            self.image = spritesheet1.subsurface(car_ss_xy[1], (100, 100))
+            self.image = spritesheet.subsurface(car_ss_xy[1], (100, 100))
         else:
             self.unselect()
 class Apple(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.object = 'Apple'
-        self.image = spritesheet1.subsurface(apple_ss_xy[0], (100, 100))
+        self.name = 'Apple'
+        self.image = spritesheet.subsurface(apple_ss_xy[0], (100, 100))
         self.rect = self.image.get_rect()
         self.rect.center = (random_img_pos[1])
         self.selected = False
 
     def unselect(self):
         self.selected = False
-        self.image = spritesheet1.subsurface(apple_ss_xy[0], (100, 100))
+        self.image = spritesheet.subsurface(apple_ss_xy[0], (100, 100))
 
     def change_ss(self):
         if self.selected == False:
             self.selected = True
-            self.image = spritesheet1.subsurface(apple_ss_xy[1], (100, 100))
+            self.image = spritesheet.subsurface(apple_ss_xy[1], (100, 100))
         else:
             self.unselect()
 class Cellphone(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.object = 'Cellphone'
-        self.image = spritesheet1.subsurface(cellphone_ss_xy[0], (100, 100))
+        self.name = 'Cellphone'
+        self.image = spritesheet.subsurface(cellphone_ss_xy[0], (100, 100))
         self.rect = self.image.get_rect()
         self.rect.center = (random_img_pos[2])
         self.selected = False
 
     def unselect(self):
         self.selected = False
-        self.image = spritesheet1.subsurface(cellphone_ss_xy[0], (100, 100))
+        self.image = spritesheet.subsurface(cellphone_ss_xy[0], (100, 100))
 
     def change_ss(self):
         if self.selected == False:
             self.selected = True
-            self.image = spritesheet1.subsurface(cellphone_ss_xy[1], (100, 100))
+            self.image = spritesheet.subsurface(cellphone_ss_xy[1], (100, 100))
         else:
             self.unselect()
 class House(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.object = 'House'
-        self.image = spritesheet1.subsurface(house_ss_xy[0], (100, 100))
+        self.name = 'House'
+        self.image = spritesheet.subsurface(house_ss_xy[0], (100, 100))
         self.rect = self.image.get_rect()
         self.rect.center = (random_img_pos[3])
         self.selected = False
 
     def unselect(self):
         self.selected = False
-        self.image = spritesheet1.subsurface(house_ss_xy[0], (100, 100))
+        self.image = spritesheet.subsurface(house_ss_xy[0], (100, 100))
 
     def change_ss(self):
         if self.selected == False:
             self.selected = True
-            self.image = spritesheet1.subsurface(house_ss_xy[1], (100, 100))
+            self.image = spritesheet.subsurface(house_ss_xy[1], (100, 100))
         else:
             self.unselect()
 class Classe(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.object = 'Classe'
-        self.image = spritesheet1.subsurface(classe_ss_xy[0], (100, 100))
+        self.name = 'Classe'
+        self.image = spritesheet.subsurface(classe_ss_xy[0], (100, 100))
         self.rect = self.image.get_rect()
         self.rect.center = (random_img_pos[4])
         self.selected = False
     
     def unselect(self):
         self.selected = False
-        self.image = spritesheet1.subsurface(classe_ss_xy[0], (100, 100))
+        self.image = spritesheet.subsurface(classe_ss_xy[0], (100, 100))
 
     def change_ss(self):
         if self.selected == False:
             self.selected = True
-            self.image = spritesheet1.subsurface(classe_ss_xy[1], (100, 100))
+            self.image = spritesheet.subsurface(classe_ss_xy[1], (100, 100))
         else:
             self.unselect()
 class Door(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.object = 'Door'
-        self.image = spritesheet1.subsurface((500, 0), (100, 100))
+        self.name = 'Door'
+        self.image = spritesheet.subsurface((500, 0), (100, 100))
         self.rect = self.image.get_rect()
         self.rect.center = (random_img_pos[5])
         self.selected = False
 
     def unselect(self):
         self.selected = False
-        self.image = spritesheet1.subsurface(door_ss_xy[0], (100, 100))
+        self.image = spritesheet.subsurface(door_ss_xy[0], (100, 100))
 
     def change_ss(self):
         if self.selected == False:
             self.selected = True
-            self.image = spritesheet1.subsurface(door_ss_xy[1], (100, 100))
+            self.image = spritesheet.subsurface(door_ss_xy[1], (100, 100))
         else:
             self.unselect()
 class Bike(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.object = 'Bike'
-        self.image = spritesheet1.subsurface((600, 0), (100, 100))
+        self.name = 'Bike'
+        self.image = spritesheet.subsurface((600, 0), (100, 100))
         self.rect = self.image.get_rect()
         self.rect.center = (random_img_pos[6])
         self.selected = False
 
     def unselect(self):
         self.selected = False
-        self.image = spritesheet1.subsurface(bike_ss_xy[0], (100, 100))
+        self.image = spritesheet.subsurface(bike_ss_xy[0], (100, 100))
 
     def change_ss(self):
         if self.selected == False:
             self.selected = True
-            self.image = spritesheet1.subsurface(bike_ss_xy[1], (100, 100))
+            self.image = spritesheet.subsurface(bike_ss_xy[1], (100, 100))
         else:
             self.unselect()
 class Computer(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.object = 'Computer'
-        self.image = spritesheet1.subsurface((700, 0), (100, 100))
+        self.name = 'Computer'
+        self.image = spritesheet.subsurface((700, 0), (100, 100))
         self.rect = self.image.get_rect()
         self.rect.center = (random_img_pos[7])
         self.selected = False
 
     def unselect(self):
         self.selected = False
-        self.image = spritesheet1.subsurface(computer_ss_xy[0], (100, 100))
+        self.image = spritesheet.subsurface(computer_ss_xy[0], (100, 100))
 
     def change_ss(self):
         if self.selected == False:
             self.selected = True
-            self.image = spritesheet1.subsurface(computer_ss_xy[1], (100, 100))
+            self.image = spritesheet.subsurface(computer_ss_xy[1], (100, 100))
         else:
             self.unselect()
 class Teacher(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.object = 'Teacher'
-        self.image = spritesheet1.subsurface((800, 0), (100, 100))
+        self.name = 'Teacher'
+        self.image = spritesheet.subsurface((800, 0), (100, 100))
         self.rect = self.image.get_rect()
         self.rect.center = (random_img_pos[8])
         self.selected = False
 
     def unselect(self):
         self.selected = False
-        self.image = spritesheet1.subsurface(teacher_ss_xy[0], (100, 100))
+        self.image = spritesheet.subsurface(teacher_ss_xy[0], (100, 100))
 
     def change_ss(self):
         if self.selected == False:
             self.selected = True
-            self.image = spritesheet1.subsurface(teacher_ss_xy[1], (100, 100))
+            self.image = spritesheet.subsurface(teacher_ss_xy[1], (100, 100))
         else:
             self.unselect()
-def unselect_all():
-    car.unselect()
-    apple.unselect()
-    cellphone.unselect()
-    house.unselect()
-    classe.unselect()
-    door.unselect()
-    bike.unselect()
-    computer.unselect()
-    teacher.unselect()
 
 # Sprites das Palavras (TERMINAR)
-'''class CarWord(pygame.sprite.Sprite):
+class CarWord(pygame.sprite.Sprite):
     def __init__(self):
-        pygame.sprite.Sprite.__inite__(self)
-        self.word = 'Car'
-        self.image = spritesheet1.subsurface(carword_ss_xy, (100, 100))
+        pygame.sprite.Sprite.__init__(self)
+        self.name = 'Car'
+        self.image = spritesheet.subsurface(carword_ss_xy[0], (200,60))
         self.rect = self.image.get_rect()
         self.rect.center = (random_word_pos[0])
-        self.selected = False'''
+        self.selected = False
+    
+    def unselect(self):
+        self.selected = False
+        self.image = spritesheet.subsurface(carword_ss_xy[0], (200,60))
+
+    def change_ss(self):
+        if self.selected == False:
+            self.selected = True
+            self.image = spritesheet.subsurface(carword_ss_xy[1], (200,60))
+        else:
+            self.unselect()
+class AppleWord(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.name = 'Apple'
+        self.image = spritesheet.subsurface(appleword_ss_xy[0], (200,60))
+        self.rect = self.image.get_rect()
+        self.rect.center = (random_word_pos[1])
+        self.selected = False
+
+    def unselect(self):
+        self.selected = False
+        self.image = spritesheet.subsurface(appleword_ss_xy[0], (200,60))
+
+    def change_ss(self):
+        if self.selected == False:
+            self.selected = True
+            self.image = spritesheet.subsurface(appleword_ss_xy[1], (200,60))
+        else:
+            self.unselect()
+class CellphoneWord(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.name = 'Cellphone'
+        self.image = spritesheet.subsurface(cellphoneword_ss_xy[0], (200,60))
+        self.rect = self.image.get_rect()
+        self.rect.center = (random_word_pos[2])
+        self.selected = False
+    
+    def unselect(self):
+        self.selected = False
+        self.image = spritesheet.subsurface(cellphoneword_ss_xy[0], (200,60))
+
+    def change_ss(self):
+        if self.selected == False:
+            self.selected = True
+            self.image = spritesheet.subsurface(cellphoneword_ss_xy[1], (200,60))
+        else:
+            self.unselect()
+class HouseWord(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.name = 'House'
+        self.image = spritesheet.subsurface(houseword_ss_xy[0], (200,60))
+        self.rect = self.image.get_rect()
+        self.rect.center = (random_word_pos[3])
+        self.selected = False
+
+    def unselect(self):
+        self.selected = False
+        self.image = spritesheet.subsurface(houseword_ss_xy[0], (200,60))
+
+    def change_ss(self):
+        if self.selected == False:
+            self.selected = True
+            self.image = spritesheet.subsurface(houseword_ss_xy[1], (200,60))
+        else:
+            self.unselect()
+class ClasseWord(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.name = 'Classe'
+        self.image = spritesheet.subsurface(classeword_ss_xy[0], (200,60))
+        self.rect = self.image.get_rect()
+        self.rect.center = (random_word_pos[4])
+        self.selected = False
+
+    def unselect(self):
+        self.selected = False
+        self.image = spritesheet.subsurface(classeword_ss_xy[0], (200,60))
+
+    def change_ss(self):
+        if self.selected == False:
+            self.selected = True
+            self.image = spritesheet.subsurface(classeword_ss_xy[1], (200,60))
+        else:
+            self.unselect()
+class DoorWord(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.name = 'Door'
+        self.image = spritesheet.subsurface(doorword_ss_xy[0], (200,60))
+        self.rect = self.image.get_rect()
+        self.rect.center = (random_word_pos[5])
+        self.selected = False
+
+    def unselect(self):
+        self.selected = False
+        self.image = spritesheet.subsurface(doorword_ss_xy[0], (200,60))
+
+    def change_ss(self):
+        if self.selected == False:
+            self.selected = True
+            self.image = spritesheet.subsurface(doorword_ss_xy[1], (200,60))
+        else:
+            self.unselect()
+class BikeWord(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.name = 'Bike'
+        self.image = spritesheet.subsurface(bikeword_ss_xy[0], (200,60))
+        self.rect = self.image.get_rect()
+        self.rect.center = (random_word_pos[6])
+        self.selected = False
+
+    def unselect(self):
+        self.selected = False
+        self.image = spritesheet.subsurface(bikeword_ss_xy[0], (200,60))
+
+    def change_ss(self):
+        if self.selected == False:
+            self.selected = True
+            self.image = spritesheet.subsurface(bikeword_ss_xy[1], (200,60))
+        else:
+            self.unselect()
+class ComputerWord(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.name = 'Computer'
+        self.image = spritesheet.subsurface(computerword_ss_xy[0], (200,60))
+        self.rect = self.image.get_rect()
+        self.rect.center = (random_word_pos[7])
+        self.selected = False
+    
+    def unselect(self):
+        self.selected = False
+        self.image = spritesheet.subsurface(computerword_ss_xy[0], (200,60))
+
+    def change_ss(self):
+        if self.selected == False:
+            self.selected = True
+            self.image = spritesheet.subsurface(computerword_ss_xy[1], (200,60))
+        else:
+            self.unselect()
+class TeacherWord(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.name = 'Teacher'
+        self.image = spritesheet.subsurface(teacherword_ss_xy[0], (200,60))
+        self.rect = self.image.get_rect()
+        self.rect.center = (random_word_pos[8])
+        self.selected = False
+
+    def unselect(self):
+        self.selected = False
+        self.image = spritesheet.subsurface(teacherword_ss_xy[0], (200,60))
+
+    def change_ss(self):
+        if self.selected == False:
+            self.selected = True
+            self.image = spritesheet.subsurface(teacherword_ss_xy[1], (200,60))
+        else:
+            self.unselect()
 
 # Instanciando Classes de Sprites
+
 # Mouse
 cursor = MouseCursor()
 cursor_sprite = pygame.sprite.Group()
 cursor_sprite.add(cursor)
+
 # Imagens de Objetos
 all_object_sprites = pygame.sprite.Group()
 car = Car()
@@ -297,10 +463,44 @@ door = Door()
 bike = Bike()
 computer = Computer()
 teacher = Teacher()
+def unselect_all_objects():
+    car.unselect()
+    apple.unselect()
+    cellphone.unselect()
+    house.unselect()
+    classe.unselect()
+    door.unselect()
+    bike.unselect()
+    computer.unselect()
+    teacher.unselect()
+
+# Palavras de Objetos
+all_word_sprites = pygame.sprite.Group()
+carw = CarWord()
+applew = AppleWord()
+cellphonew = CellphoneWord()
+housew = HouseWord()
+classew = ClasseWord()
+doorw = DoorWord()
+bikew = BikeWord()
+computerw = ComputerWord()
+teacherw = TeacherWord()
+def unselect_all_words():
+    carw.unselect()
+    applew.unselect()
+    cellphonew.unselect()
+    housew.unselect()
+    classew.unselect()
+    doorw.unselect()
+    bikew.unselect()
+    computerw.unselect()
+    teacherw.unselect()
+
 # Lista que será usada para randomizar quais objetos aparecerá na tela
 lista_img = [car, apple, cellphone, house, classe, door, bike, computer, teacher]
 # Lista que será usada para randomizar quais palavras aparecerá na tela
-'''lista_words = [carw, applew,]'''
+lista_words = [carw, applew, cellphonew, housew, classew, doorw, bikew, computerw, teacherw]
+
 word_index = []
 img_index = []
 
@@ -308,10 +508,13 @@ while True:
     clock.tick(60)
     screen.fill((255, 255, 255))
 
+    # Recebe a posição do mouse na tela
     mx, my = pygame.mouse.get_pos()
     loc = [mx, my]
     click = []
     cursor.cursor_pos(loc)
+
+    # Recebe inputs de Eventos
     for event in pygame.event.get():
         if event.type == QUIT:
             pygame.quit()
@@ -322,93 +525,116 @@ while True:
             click_area = pygame.draw.rect(screen, (0,0,0), (click[0], click[1], 10, 10))
             print(click)       
             
-    # CONTEÚDO EXIBIDO À ESQUERDA ------------------------------------------------------- #
-
     # Armazena randomicamente um item da lista de palavras numa nova lista, que será utilizada para exibir as palavras na tela
     i_cont = []
     if random_list == True:
         random_list = False
         for w in range (0,4):
-            i = randint(0, (len(easy_words)-1))
+            i = randint(0, (len(lista_words)-1))
             i_cont.append(i)
 
             # Previne que o algoritmo gere índices repetidos ---------------------------------#
             while (i_cont.count(i) > 1):
                 i_cont.pop()
-                i = randint(0, (len(easy_words)-1))
+                i = randint(0, (len(lista_words)-1))
                 i_cont.append(i)
 
-            random_words.append(easy_words[i])
-            random_sprites.append(lista_imagens[i])
+            random_words.append(lista_words[i])
+            random_sprites.append(lista_img[i])
+        # Insere no spriteGroup a lista de sprites randomiza, casando imagem com palavra
         all_object_sprites.add(random_sprites)
+        all_word_sprites.add(random_words)
 
-    # Diz como será exibida cada uma das palavras na tela --------------------------------#
-    ftext1 = font.render(random_words[0], True, (255, 255, 255))
-    txtbox1 = ftext1.get_rect()
-    txtbox1 = (50, 50)
-    
-    ftext2 = font.render(random_words[1], True, (255, 255, 255))
-    txtbox2 = ftext2.get_rect()
-    txtbox2 = (50, 170)
+    # Exibe elementos(sprites) na tela -----------------------------------#
 
-    ftext3 = font.render(random_words[2], True, (255, 255, 255))
-    txtbox3 = ftext3.get_rect()
-    txtbox3 = (50, 290)
-
-    ftext4 = font.render(random_words[3], True, (255, 255, 255))
-    txtbox4 = ftext4.get_rect()
-    txtbox4 = (50, 410)
-    
-    # Exibe elementos na tela -----------------------------------#
-    screen.blit(background, (0,0))
-    screen.blit(ftext1, txtbox1)
-    screen.blit(ftext2, txtbox2)
-    screen.blit(ftext3, txtbox3)
-    screen.blit(ftext4, txtbox4)
     all_object_sprites.draw(screen)
+    all_word_sprites.draw(screen)
     cursor_sprite.draw(screen)
     
-    # Colisões e alteração de estado ----------------------------#
-    selected_list = [car.selected, apple.selected, cellphone.selected, house.selected, classe.selected, door.selected, bike.selected, computer.selected, teacher.selected]
-    
+    # Recebem o estado das instancias 'selected' dos Objetos
+
+    selected_object = [car.selected, apple.selected, cellphone.selected, house.selected, classe.selected, door.selected, bike.selected, computer.selected, teacher.selected]
+
+    selected_word = [carw.selected, applew.selected, cellphonew.selected, housew.selected, classew.selected, doorw.selected, bikew.selected, computerw.selected, teacherw.selected]
+
+    # Colisões e alteração de estado dos objetos(sprites) -----------------#
+
     if len(click) > 0:
         if click_area.colliderect(car.rect):
-            if selected_list.count(True) <= 1:
+            if selected_object.count(True) <= 1:
                 car.change_ss()
 
         elif click_area.colliderect(apple.rect):
-            if selected_list.count(True) <= 1:
+            if selected_object.count(True) <= 1:
                 apple.change_ss()
 
         elif click_area.colliderect(cellphone.rect):
-            if selected_list.count(True) <= 1:
+            if selected_object.count(True) <= 1:
                 cellphone.change_ss()
 
         elif click_area.colliderect(house.rect):
-            if selected_list.count(True) <= 1:
+            if selected_object.count(True) <= 1:
                 house.change_ss()
 
         elif click_area.colliderect(classe.rect):
-            if selected_list.count(True) <= 1:
+            if selected_object.count(True) <= 1:
                 classe.change_ss()
 
         elif click_area.colliderect(door.rect):
-            if selected_list.count(True) <= 1:
+            if selected_object.count(True) <= 1:
                 door.change_ss()
 
         elif click_area.colliderect(bike.rect):
-            if selected_list.count(True) <= 1:
+            if selected_object.count(True) <= 1:
                 bike.change_ss()
 
         elif click_area.colliderect(computer.rect):
-            if selected_list.count(True) <= 1:
+            if selected_object.count(True) <= 1:
                 computer.change_ss()
 
         elif click_area.colliderect(teacher.rect):
-            if selected_list.count(True) <= 1:
+            if selected_object.count(True) <= 1:
                 teacher.change_ss()
 
-    if selected_list.count(True) > 1:
-        unselect_all()
+    # Colisões e alteração de estado das palavras ----------------------------#
+
+        elif click_area.colliderect(car.rect):
+            if selected_object.count(True) <= 1:
+                car.change_ss()
+
+        elif click_area.colliderect(apple.rect):
+            if selected_object.count(True) <= 1:
+                apple.change_ss()
+
+        elif click_area.colliderect(cellphone.rect):
+            if selected_object.count(True) <= 1:
+                cellphone.change_ss()
+
+        elif click_area.colliderect(house.rect):
+            if selected_object.count(True) <= 1:
+                house.change_ss()
+
+        elif click_area.colliderect(classe.rect):
+            if selected_object.count(True) <= 1:
+                classe.change_ss()
+
+        elif click_area.colliderect(door.rect):
+            if selected_object.count(True) <= 1:
+                door.change_ss()
+
+        elif click_area.colliderect(bike.rect):
+            if selected_object.count(True) <= 1:
+                bike.change_ss()
+
+        elif click_area.colliderect(computer.rect):
+            if selected_object.count(True) <= 1:
+                computer.change_ss()
+
+        elif click_area.colliderect(teacher.rect):
+            if selected_object.count(True) <= 1:
+                teacher.change_ss()
+
+    if selected_object.count(True) > 1:
+        unselect_all_objects()
     
     pygame.display.flip()
