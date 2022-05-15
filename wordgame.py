@@ -1,3 +1,4 @@
+from asyncio import selector_events
 import pygame
 from pygame.locals import *
 from sys import exit
@@ -300,7 +301,7 @@ class Computer(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         self.name = 'Computer'
-        self.image = spritesheet.subsurface(computer_ss_xy, (100, 100))
+        self.image = spritesheet.subsurface(computer_ss_xy[0], (100, 100))
         self.rect = self.image.get_rect()
         self.rect.center = (random_img_pos[7])
         self.selected = False
@@ -359,6 +360,7 @@ class CarWord(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = (random_word_pos[0])
         self.selected = False
+        self.success = False
     
     def confirm_success(self):
         self.success = True
@@ -621,6 +623,7 @@ door = Door()
 bike = Bike()
 computer = Computer()
 teacher = Teacher()
+
 def unselect_all_objects():
     car.unselect()
     apple.unselect()
@@ -814,14 +817,44 @@ while True:
                 select_match.append(teacherw.name)
 
     if len(select_match) == 2:
-        if (select_match[0] == 'Car' & select_match[1] == 'Car'):
+        if ((select_match[0] == 'Car') and (select_match[1] == 'Car')):
             car.confirm_success()
             carw.confirm_success()
+            
 
-        if (select_match[0] == 'Apple' & select_match[1] == 'Apple'):
+        elif ((select_match[0] == 'Apple') and (select_match[1] == 'Apple')):
             apple.confirm_success()
             applew.confirm_success()
+        
+        elif ((select_match[0] == 'Cellphone') and (select_match[1] == 'Cellphone')):
+            cellphone.confirm_success()
+            cellphonew.confirm_success()
 
+        elif ((select_match[0] == 'House') and (select_match[1] == 'House')):
+            house.confirm_success()
+            housew.confirm_success()
+
+        elif ((select_match[0] == 'Class') and (select_match[1] == 'Class')):
+            classe.confirm_success()
+            classew.confirm_success()
+
+        elif ((select_match[0] == 'Door') and (select_match[1] == 'Door')):
+            door.confirm_success()
+            doorw.confirm_success()
+
+        elif ((select_match[0] == 'Bike') and (select_match[1] == 'Bike')):
+            bike.confirm_success()
+            bikew.confirm_success()
+
+        elif ((select_match[0] == 'Computer') and (select_match[1] == 'Computer')):
+            computer.confirm_success()
+            computerw.confirm_success()
+        
+        elif ((select_match[0] == 'Teacher') and (select_match[1] == 'Teacher')):
+            teacher.confirm_success()
+            teacherw.confirm_success()
+
+        select_match = []
 
     if selected_object.count(True) > 1:
         unselect_all_objects()
