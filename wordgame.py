@@ -66,6 +66,9 @@ spritesheet2 = pygame.image.load(os.path.join(img_dir, spritesheets[1][0])).conv
 # Nome da Página, Utilização do Clock para definir FrameRate
 pygame.display.set_caption('Word Game - Aprendendo Inglês')
 clock = pygame.time.Clock()
+counter, textcounter = 60, '60'.rjust(2)
+pygame.time.set_timer(pygame.USEREVENT, 1000)
+font = pygame.font.SysFont('Consolas', 30)
 
 # Listas  de posições das Imagens dentro da Spritesheet -> subsurface
 object1_ss_xy = [(0,0), (0, 100), (0, 200)]
@@ -723,9 +726,7 @@ img_index = []
 select_match = []
 
 while True:
-    clock.tick(60)
     screen.fill((255, 255, 255))
-
     # Recebe a posição do mouse na tela
     mx, my = pygame.mouse.get_pos()
     loc = [mx, my]
@@ -741,8 +742,11 @@ while True:
         if event.type == MOUSEBUTTONDOWN:
             click = loc
             click_area = pygame.draw.rect(screen, (0,0,0), (click[0], click[1], 10, 10))
-            print(click)       
-            
+            print(click)
+        if event.type == pygame.USEREVENT:
+            counter -= 1
+            textcounter = str(counter).rjust(2) if counter > 0 else 'Fim de Jogo!'
+
     # Armazena randomicamente um item da lista de palavras numa nova lista, que será utilizada para exibir as palavras na tela
     i_cont = []
     if random_list == True:
@@ -915,5 +919,6 @@ while True:
             unselect_all_words()
 
         select_match = []
-
+    screen.blit(font.render(textcounter, True, (255, 255, 255)), (940, 700))
     pygame.display.flip()
+    clock.tick(60)
