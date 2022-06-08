@@ -1,4 +1,3 @@
-from asyncio import selector_events
 import pygame
 from pygame.locals import *
 from sys import exit
@@ -46,12 +45,12 @@ for p in range (len(img_pos)):
 
 random_words = []
 random_sprites = []
+onscreen_objects = 2
 
 # Lista de Palavras (PROVISÓRIO)
-lista_words = (['Car', 'Apple', 'Cellphone', 'House', 'Class', 'Door', 'Bike', 'Computer', 'Teacher'])
-
-# Fonte das Palavras (PROVISÓRIO MAS PODE TER USO DEPOIS)
-font = pygame.font.Font(os.path.join(font_dir ,'rudiment.ttf'), 50)
+lista_palavras = (['Car', 'Apple', 'Cellphone', 'House', 'Class', 'Door', 'Bike', 'Computer', 'Teacher'])
+indice_palavras_selecionadas = 0
+palavras_selecionadas = lista_palavras[indice_palavras_selecionadas]
 
 # Inicializando tela, plano de fundo e sprites que vão aparecer na tela
 screen = pygame.display.set_mode((w,h))
@@ -68,7 +67,7 @@ pygame.display.set_caption('Word Game - Aprendendo Inglês')
 clock = pygame.time.Clock()
 counter, textcounter = 60, '60'.rjust(2)
 pygame.time.set_timer(pygame.USEREVENT, 1000)
-font = pygame.font.SysFont('Consolas', 30)
+font = pygame.font.Font(os.path.join(font_dir ,'rudiment.ttf'), 50)
 
 # Listas  de posições das Imagens dentro da Spritesheet -> subsurface
 object1_ss_xy = [(0,0), (0, 100), (0, 200)]
@@ -94,18 +93,6 @@ word9_xx_xy = [(0, 480), (200, 480), (400, 480)]
 
 # Variável que será utilizada para determinar que as spritesheets só serão randomizadas uma ves (Será False depois que o loop for percorrido pela primeira vez)
 random_list = True
-
-# Cursor do Mouse (TESTE)
-class MouseCursor(pygame.sprite.Sprite):
-    def __init__(self):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = spritesheet.subsurface((0, 400), (100, 100))
-        self.rect = self.image.get_rect()
-        self.rect.center = (0, 0)
-        self.image = pygame.transform.scale(self.image, (50, 50))
-
-    def cursor_pos(self, loc):
-        self.rect.center = (loc[0]+50,loc[1]+50)
 
 # Sprites dos Objetos
 class Car(pygame.sprite.Sprite):
@@ -665,11 +652,6 @@ class TeacherWord(pygame.sprite.Sprite):
 
 # Instanciando Classes de Sprites
 
-# Mouse
-cursor = MouseCursor()
-cursor_sprite = pygame.sprite.Group()
-cursor_sprite.add(cursor)
-
 # Imagens de Objetos
 all_object_sprites = pygame.sprite.Group()
 car = Car()
@@ -719,20 +701,20 @@ def unselect_all_words():
 # Lista que será usada para randomizar quais objetos aparecerá na tela
 lista_img = [car, apple, cellphone, house, classe, door, bike, computer, teacher]
 # Lista que será usada para randomizar quais palavras aparecerá na tela
-lista_words = [carw, applew, cellphonew, housew, classew, doorw, bikew, computerw, teacherw]
+lista_palavras = [carw, applew, cellphonew, housew, classew, doorw, bikew, computerw, teacherw]
 
 word_index = []
 img_index = []
 select_match = []
 
+# INÍCIO DO JOGO
 while True:
     screen.fill((255, 255, 255))
     # Recebe a posição do mouse na tela
     mx, my = pygame.mouse.get_pos()
     loc = [mx, my]
     click = []
-    cursor.cursor_pos(loc)
-
+    
     # Recebe inputs de Eventos
     for event in pygame.event.get():
         if event.type == QUIT:
@@ -751,17 +733,17 @@ while True:
     i_cont = []
     if random_list == True:
         random_list = False
-        for w in range (0,4):
-            i = randint(0, (len(lista_words)-1))
+        for w in range (0, onscreen_objects):
+            i = randint(0, (len(lista_palavras)-1))
             i_cont.append(i)
 
             # Previne que o algoritmo gere índices repetidos ---------------------------------#
             while (i_cont.count(i) > 1):
                 i_cont.pop()
-                i = randint(0, (len(lista_words)-1))
+                i = randint(0, (len(lista_palavras)-1))
                 i_cont.append(i)
 
-            random_words.append(lista_words[i])
+            random_words.append(lista_palavras[i])
             random_sprites.append(lista_img[i])
         # Insere no spriteGroup a lista de sprites randomiza, casando imagem com palavra
         all_object_sprites.add(random_sprites)
@@ -772,7 +754,6 @@ while True:
     screen.blit(background, (0, 0))
     all_object_sprites.draw(screen)
     all_word_sprites.draw(screen)
-    cursor_sprite.draw(screen)
     
     # Recebem o estado das instancias 'selected' dos Objetos
 
@@ -785,94 +766,130 @@ while True:
     if len(click) > 0:
 
         if click_area.colliderect(car.rect):
-            if selected_object.count(True) <= 1:
+            if car.selected == True:
+                pass
+            elif selected_object.count(True) <= 1:
                 car.change_select()
                 select_match.append(car.name)
 
         elif click_area.colliderect(apple.rect):
-            if selected_object.count(True) <= 1:
+            if apple.selected == True:
+                pass
+            elif selected_object.count(True) <= 1:
                 apple.change_select()
                 select_match.append(apple.name)
 
         elif click_area.colliderect(cellphone.rect):
-            if selected_object.count(True) <= 1:
+            if cellphone.selected == True:
+                pass
+            elif selected_object.count(True) <= 1:
                 cellphone.change_select()
                 select_match.append(cellphone.name)
 
         elif click_area.colliderect(house.rect):
-            if selected_object.count(True) <= 1:
+            if house.selected == True:
+                pass
+            elif selected_object.count(True) <= 1:
                 house.change_select()
                 select_match.append(house.name)
 
         elif click_area.colliderect(classe.rect):
-            if selected_object.count(True) <= 1:
+            if classe.selected == True:
+                pass
+            elif selected_object.count(True) <= 1:
                 classe.change_select()
                 select_match.append(classe.name)
 
         elif click_area.colliderect(door.rect):
-            if selected_object.count(True) <= 1:
+            if door.selected == True:
+                pass
+            elif selected_object.count(True) <= 1:
                 door.change_select()
                 select_match.append(door.name)
 
         elif click_area.colliderect(bike.rect):
-            if selected_object.count(True) <= 1:
+            if bike.selected == True:
+                pass
+            elif selected_object.count(True) <= 1:
                 bike.change_select()
                 select_match.append(bike.name)
 
         elif click_area.colliderect(computer.rect):
-            if selected_object.count(True) <= 1:
+            if computer.selected == True:
+                pass
+            elif selected_object.count(True) <= 1:
                 computer.change_select()
                 select_match.append(computer.name)
 
         elif click_area.colliderect(teacher.rect):
-            if selected_object.count(True) <= 1:
+            if teacher.selected == True:
+                pass
+            elif selected_object.count(True) <= 1:
                 teacher.change_select()
                 select_match.append(teacher.name)
 
     # Colisões e alteração de estado das palavras ----------------------------#
 
         elif click_area.colliderect(carw.rect):
-            if selected_word.count(True) <= 1:
+            if carw.selected == True:
+                pass
+            elif selected_word.count(True) <= 1:
                 carw.change_select()
                 select_match.append(carw.name)
 
         elif click_area.colliderect(applew.rect):
-            if selected_word.count(True) <= 1:
+            if applew.selected == True:
+                pass
+            elif selected_word.count(True) <= 1:
                 applew.change_select()
                 select_match.append(applew.name)
 
         elif click_area.colliderect(cellphonew.rect):
-            if selected_word.count(True) <= 1:
+            if cellphonew.selected == True:
+                pass
+            elif selected_word.count(True) <= 1:
                 cellphonew.change_select()
                 select_match.append(cellphonew.name)
 
         elif click_area.colliderect(housew.rect):
-            if selected_word.count(True) <= 1:
+            if housew.selected == True:
+                pass
+            elif selected_word.count(True) <= 1:
                 housew.change_select()
                 select_match.append(housew.name)
 
         elif click_area.colliderect(classew.rect):
-            if selected_word.count(True) <= 1:
+            if classew.selected == True:
+                pass
+            elif selected_word.count(True) <= 1:
                 classew.change_select()
                 select_match.append(classew.name)
 
         elif click_area.colliderect(doorw.rect):
-            if selected_word.count(True) <= 1:
+            if doorw.selected == True:
+                pass
+            elif selected_word.count(True) <= 1:
                 doorw.change_select()
                 select_match.append(doorw.name)
 
         elif click_area.colliderect(bikew.rect):
-            if selected_word.count(True) <= 1:
+            if bikew.selected == True:
+                pass
+            elif selected_word.count(True) <= 1:
                 bikew.change_select()
                 select_match.append(bikew.name)
 
         elif click_area.colliderect(computerw.rect):
-            if selected_word.count(True) <= 1:
+            if computerw.selected == True:
+                pass
+            elif selected_word.count(True) <= 1:
                 computerw.change_select()
                 select_match.append(computerw.name)
 
         elif click_area.colliderect(teacherw.rect):
-            if selected_word.count(True) <= 1:
+            if teacherw.selected == True:
+                pass
+            elif selected_word.count(True) <= 1:
                 teacherw.change_select()
                 select_match.append(teacherw.name)
 
