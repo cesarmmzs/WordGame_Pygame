@@ -17,7 +17,17 @@ h = 675
 
 # Algoritmo para randomizar a posição das palavras na tela (AUTO)
 i_cont = []
-word_pos = [(120, 60), (120, 125), (120, 190), (120, 255), (120, 320), (120,385), (120, 450), (120, 515), (120, 580)]
+word_pos = (
+    (120, 60),
+    (120, 125),
+    (120, 190),
+    (120, 255),
+    (120, 320),
+    (120,385),
+    (120, 450),
+    (120, 515),
+    (120, 580)
+)
 random_word_pos = []
 for p in range (len(word_pos)):
     i = randint(0, len(word_pos)-1)
@@ -31,9 +41,18 @@ for p in range (len(word_pos)):
 
 # Algoritmo para randomizar a posição das imagens na tela (AUTO)
 i_cont = []
-img_pos = [(350, 200), (350, 400), (350, 600), (570, 200), (570, 400), (570, 600), (800, 200), (800, 400), (800, 600)]
+img_pos = (
+    (350, 200),
+    (350, 400),
+    (350, 600),
+    (570, 200),
+    (570, 400),
+    (570, 600),
+    (800, 200),
+    (800, 400),
+    (800, 600)
+)
 random_img_pos = []
-
 for p in range (len(img_pos)):
     i = randint(0, len(img_pos)-1)
     i_cont.append(i)
@@ -44,16 +63,40 @@ for p in range (len(img_pos)):
         i_cont.append(i)
     random_img_pos.append(img_pos[i])
 
-random_words = []
-random_sprites = []
-
 # Lista de Palavras
 palavras = (
     ('Car', 'Apple', 'Cellphone', 'House', 'Class', 'Door', 'Bike', 'Computer', 'Teacher'),
-    ('Earth','Target','Window','Crown','Whistle','Eyeliner','Cheese','Strawberry','Heaphone'),
-    ('Schedule','Squirrel','Dessert','Olives','Scissor','Moisturizer','Hurricane','Workout','Eye Shadow')
-    )
-spritesheets = (('objectSpritesheet1.png','objectSpritesheet2.png','objectSpritesheet3.png'), ('wordSpritesheet1.png','wordSpritesheet2.png','wordSpritesheet3.png'),('menuSpritesheet.png'))
+    ('Earth', 'Target', 'Window', 'Crown', 'Whistle', 'Eyeliner', 'Cheese', 'Strawberry', 'Heaphone'),
+    ('Schedule', 'Squirrel', 'Dessert', 'Olives', 'Scissor', 'Moisturizer', 'Hurricane', 'Workout', 'Eye Shadow')
+)
+
+spritesheets = (
+    ('objectSpritesheet1.png','objectSpritesheet2.png','objectSpritesheet3.png'),
+    ('wordSpritesheet1.png','wordSpritesheet2.png','wordSpritesheet3.png'),
+    ('menuSpritesheet.png')
+)
+
+# Listas  de posições das Imagens dentro da Spritesheet -> subsurface
+object1_ss_xy = ((0,0), (0, 100), (0, 200))
+object2_ss_xy = ((100, 0), (100, 100), (100, 200))
+object3_ss_xy = ((200, 0), (200, 100), (200, 200))
+object4_ss_xy = ((300, 0), (300, 100), (300, 200))
+object5_ss_xy = ((400, 0), (400, 100), (400, 200))
+object6_ss_xy = ((500, 0), (500, 100), (500, 200))
+object7_ss_xy = ((600, 0), (600, 100), (600, 200))
+object8_ss_xy = ((700, 0), (700, 100), (700, 200))
+object9_ss_xy = ((800, 0), (800, 100), (800, 200))
+
+# Listas  de posições das Palavras dentro da Spritesheet -> subsurface
+word1_ss_xy = ((0,0), (200, 0), (400, 0))
+word2_ss_xy = ((0, 60), (200, 60), (400, 60))
+word3_ss_xy = ((0, 120), (200, 120), (400, 120))
+word4_ss_xy = ((0, 180), (200, 180), (400, 180))
+word5_ss_xy = ((0, 240), (200, 240), (400, 240))
+word6_ss_xy = ((0, 300), (200, 300), (400, 300))
+word7_ss_xy = ((0, 360), (200, 360), (400, 360))
+word8_ss_xy = ((0, 420), (200, 420), (400, 420))
+word9_xx_xy = ((0, 480), (200, 480), (400, 480))
 
 # Inicializando tela, plano de fundo e sprites que vão aparecer na tela
 screen = pygame.display.set_mode((w,h))
@@ -64,34 +107,10 @@ arrowlist2 = ((100,200),(300,200))
 # Nome da Página, Utilização do Clock para definir FrameRate
 pygame.display.set_caption('Word Game - Aprendendo Inglês')
 clock = pygame.time.Clock()
-counter, textcounter = 60, '60'.rjust(2)
+counter, textcounter = 0, '0'.rjust(2)
 pygame.time.set_timer(pygame.USEREVENT, 1000)
 font = pygame.font.Font(os.path.join(font_dir ,'rudiment.ttf'), 70)
-
-# Listas  de posições das Imagens dentro da Spritesheet -> subsurface
-object1_ss_xy = [(0,0), (0, 100), (0, 200)]
-object2_ss_xy = [(100, 0), (100, 100), (100, 200)]
-object3_ss_xy = [(200, 0), (200, 100), (200, 200)]
-object4_ss_xy = [(300, 0), (300, 100), (300, 200)]
-object5_ss_xy = [(400, 0), (400, 100), (400, 200)]
-object6_ss_xy = [(500, 0), (500, 100), (500, 200)]
-object7_ss_xy = [(600, 0), (600, 100), (600, 200)]
-object8_ss_xy = [(700, 0), (700, 100), (700, 200)]
-object9_ss_xy = [(800, 0), (800, 100), (800, 200)]
-
-# Listas  de posições das Palavras dentro da Spritesheet -> subsurface
-word1_ss_xy = [(0,0), (200, 0), (400, 0)]
-word2_ss_xy = [(0, 60), (200, 60), (400, 60)]
-word3_ss_xy = [(0, 120), (200, 120), (400, 120)]
-word4_ss_xy = [(0, 180), (200, 180), (400, 180)]
-word5_ss_xy = [(0, 240), (200, 240), (400, 240)]
-word6_ss_xy = [(0, 300), (200, 300), (400, 300)]
-word7_ss_xy = [(0, 360), (200, 360), (400, 360)]
-word8_ss_xy = [(0, 420), (200, 420), (400, 420)]
-word9_xx_xy = [(0, 480), (200, 480), (400, 480)]
-
-# Variável que será utilizada para determinar que as spritesheets só serão randomizadas uma vez
-random_list = True
+font2 = pygame.font.Font(os.path.join(font_dir ,'rudiment.ttf'), 40)
 
 #Sprites dos Menus
 class Init(pygame.sprite.Sprite):
@@ -114,7 +133,7 @@ class Arrow1(pygame.sprite.Sprite):
         self.index = 0
         self.image = menuspritesheet.subsurface(arrowlist1[self.index], (100, 100))
         self.rect = self.image.get_rect()
-        self.rect.center = (250, 310)
+        self.rect.center = (220, 310)
 
     def select(self):
         self.animate = True
@@ -133,7 +152,7 @@ class Arrow2(pygame.sprite.Sprite):
         self.index = 0
         self.image = menuspritesheet.subsurface(arrowlist2[self.index], (100, 100))
         self.rect = self.image.get_rect()
-        self.rect.center = (650, 310)
+        self.rect.center = (670, 310)
 
     def select(self):
         self.animate = True
@@ -181,14 +200,11 @@ difficult_set = DifficultSet()
 arrow1 = Arrow1()
 arrow2 = Arrow2()
 all_menu_sprites.add(initgame, difficult, difficult_set, arrow1, arrow2)
-
-# INÍCIO DO JOGO
 while True:
-
     # ------------- MENU -------------------
     while initgame.init == False:
         screen.fill((255, 255, 255))
-        print(arrow1.index)
+        clock.tick(60)
         # Recebe a posição do mouse na tela
         mx, my = pygame.mouse.get_pos()
         loc = [mx, my]
@@ -203,7 +219,7 @@ while True:
             if event.type == MOUSEBUTTONDOWN:
                 click = loc
                 click_area = pygame.draw.rect(screen, (0,0,0), (click[0], click[1], 10, 10))
-                print(click)
+                (click)
 
         all_menu_sprites.draw(screen)
 
@@ -211,7 +227,7 @@ while True:
 
             if click_area.colliderect(initgame.rect):
                 initgame.init = True
-
+                
             elif click_area.colliderect(arrow1.rect):
                 difficult_set.difficultDecrease()
                                 
@@ -221,9 +237,26 @@ while True:
         arrow1.update()
         arrow2.update()
         pygame.display.flip()
-        clock.tick(60)
+    # ---------- FIM DO MENU ------------------
 
-    #if difficult_set.difficult == 0:
+    if difficult_set.difficult == 0:
+        indice_palavras_selecionadas = 0
+        indice_objetos_selecionados = 0
+        onscreen_objects = 5
+
+    elif difficult_set.difficult == 1:
+        indice_palavras_selecionadas = 1
+        indice_objetos_selecionados = 1
+        onscreen_objects = 7
+
+    elif difficult_set.difficult == 2:
+        indice_palavras_selecionadas = 2
+        indice_objetos_selecionados = 2
+        onscreen_objects = 9
+
+    palavras_selecionadas = palavras[indice_palavras_selecionadas]
+    spritesheet = pygame.image.load(os.path.join(img_dir, spritesheets[0][indice_objetos_selecionados])).convert_alpha()
+    spritesheet2 = pygame.image.load(os.path.join(img_dir, spritesheets[1][indice_palavras_selecionadas])).convert_alpha()
 
         # Sprites dos Objetos
     class Object1(pygame.sprite.Sprite):
@@ -628,7 +661,7 @@ while True:
     class Object5Word(pygame.sprite.Sprite):
         def __init__(self):
             pygame.sprite.Sprite.__init__(self)
-            self.name = 'Class'
+            self.name = palavras_selecionadas[4]
             self.image = spritesheet2.subsurface(word5_ss_xy[0], (200,60))
             self.rect = self.image.get_rect()
             self.rect.center = (random_word_pos[4])
@@ -834,18 +867,17 @@ while True:
     # Lista que será usada para randomizar quais palavras aparecerá na tela
     lista_palavras = [object1word, object2word, object3word, object4word, object5word, object6word, object7word, object8word, object9word]
 
-    word_index = []
-    img_index = []
     select_match = []
-
+    select_true = []
+    # Variável que será utilizada para determinar que as spritesheets só serão randomizadas uma vez
+    random_list = True
+    endgame = False
     background = pygame.image.load(os.path.join(img_dir, 'wordgame_bg.jpg')).convert()
-    spritesheet = pygame.image.load(os.path.join(img_dir, spritesheets[0][indice_objetos_selecionados])).convert_alpha()
-    spritesheet2 = pygame.image.load(os.path.join(img_dir, spritesheets[1][0])).convert_alpha()
-    palavras_selecionadas = palavras[indice_palavras_selecionadas]
 
     # -------------------- JOGO --------------------
-    while True:
+    while endgame == False:
         screen.fill((255, 255, 255))
+        clock.tick(60)
         # Recebe a posição do mouse na tela
         mx, my = pygame.mouse.get_pos()
         loc = [mx, my]
@@ -860,28 +892,31 @@ while True:
             if event.type == MOUSEBUTTONDOWN:
                 click = loc
                 click_area = pygame.draw.rect(screen, (0,0,0), (click[0], click[1], 10, 10))
-                print(click)
+
             if event.type == pygame.USEREVENT:
-                counter -= 1
+                counter += 1
                 textcounter = str(counter).rjust(2) if counter > 0 else 'Fim de Jogo!'
 
         # Armazena randomicamente um item da lista de palavras numa nova lista, que será utilizada para exibir as palavras na tela
         i_cont = []
         if random_list == True:
             random_list = False
+            random_words = []
+            random_sprites = []
             for w in range (0, onscreen_objects):
-                i = randint(0, (len(palavras)-1))
+                i = randint(0, (len(lista_palavras)-1))
                 i_cont.append(i)
 
                 # Previne que o algoritmo gere índices repetidos ---------------------------------#
                 while (i_cont.count(i) > 1):
                     i_cont.pop()
-                    i = randint(0, (len(palavras)-1))
+                    i = randint(0, (len(lista_palavras)-1))
                     i_cont.append(i)
 
-                random_words.append(palavras[i])
+                random_words.append(lista_palavras[i])
                 random_sprites.append(lista_img[i])
-            # Insere no spriteGroup a lista de sprites randomiza, casando imagem com palavra
+
+            # Insere no spriteGroup a lista de sprites randomizada, casando imagem com palavra
             all_object_sprites.add(random_sprites)
             all_word_sprites.add(random_words)
 
@@ -893,9 +928,28 @@ while True:
         
         # Recebem o estado das instancias 'selected' dos Objetos
 
-        selected_object = [object1.selected, object2.selected, object3.selected, object4.selected, object5.selected, object6.selected, object7.selected, object8.selected, object9.selected]
-
-        selected_word = [object1word.selected, object2word.selected, object3word.selected, object4word.selected, object5word.selected, object6word.selected, object7word.selected, object8word.selected, object9word.selected]
+        selected_object = [
+        object1.selected,
+        object2.selected,
+        object3.selected,
+        object4.selected,
+        object5.selected,
+        object6.selected,
+        object7.selected,
+        object8.selected,
+        object9.selected
+        ]
+        selected_word = [
+            object1word.selected,
+            object2word.selected,
+            object3word.selected,
+            object4word.selected,
+            object5word.selected,
+            object6word.selected,
+            object7word.selected,
+            object8word.selected,
+            object9word.selected
+            ]
 
         # Colisões e alteração de estado dos objetos(sprites) -----------------#
 
@@ -1028,50 +1082,77 @@ while True:
                 elif selected_word.count(True) <= 1:
                     object9word.change_select()
                     select_match.append(object9word.name)
-            
+
         if len(select_match) == 2:
             if ((select_match[0] == palavras_selecionadas[0]) and (select_match[1] == palavras_selecionadas[0])):
                 object1.confirm_success()
                 object1word.confirm_success()
-                
+                select_true.append(True)
 
             elif ((select_match[0] == palavras_selecionadas[1]) and (select_match[1] == palavras_selecionadas[1])):
                 object2.confirm_success()
                 object2word.confirm_success()
+                select_true.append(True)
             
             elif ((select_match[0] == palavras_selecionadas[2]) and (select_match[1] == palavras_selecionadas[2])):
                 object3.confirm_success()
                 object3word.confirm_success()
+                select_true.append(True)
 
-            elif ((select_match[0] == palavras_selecionadas[3]) and (select_match[1] == palavras_selecionadas[4])):
+            elif ((select_match[0] == palavras_selecionadas[3]) and (select_match[1] == palavras_selecionadas[3])):
                 object4.confirm_success()
                 object4word.confirm_success()
+                select_true.append(True)
 
             elif ((select_match[0] == palavras_selecionadas[4]) and (select_match[1] == palavras_selecionadas[4])):
                 object5.confirm_success()
                 object5word.confirm_success()
+                select_true.append(True)
 
             elif ((select_match[0] == palavras_selecionadas[5]) and (select_match[1] == palavras_selecionadas[5])):
                 object6.confirm_success()
                 object6word.confirm_success()
+                select_true.append(True)
 
             elif ((select_match[0] == palavras_selecionadas[6]) and (select_match[1] == palavras_selecionadas[6])):
                 object7.confirm_success()
                 object7word.confirm_success()
+                select_true.append(True)
 
             elif ((select_match[0] == palavras_selecionadas[7]) and (select_match[1] == palavras_selecionadas[7])):
                 object8.confirm_success()
                 object8word.confirm_success()
+                select_true.append(True)
             
             elif ((select_match[0] == palavras_selecionadas[8]) and (select_match[1] == palavras_selecionadas[8])):
                 object9.confirm_success()
                 object9word.confirm_success()
+                select_true.append(True)
 
             else:
                 unselect_all_objects()
                 unselect_all_words()
+            # AO FINAL DA VERIFICAÇÃO, ZERA A LISTA PARA UMA NOVA ITERAÇÃO
+            select_match= []
+        
+        if select_true.count(True) == onscreen_objects:
+            end_msg = 'Fim de Jogo! Clique em qualquer lugar para retornar ao menu'
+            texto_formatado = font2.render(end_msg, True, (0, 0, 0))
+            textbox = texto_formatado.get_rect()
 
-            select_match = []
+            endgame = True
+            while endgame:
+                screen.fill((255, 255, 255))
+                for event in pygame.event.get():        
+                    if event.type == QUIT:
+                        pygame.quit()
+                        exit()
+                    if event.type == MOUSEBUTTONDOWN:
+                        endgame = False
+                            
+                textbox.center = (w//2, h//2)
+                screen.blit(texto_formatado, textbox)
+                pygame.display.update()
+            
         screen.blit(font.render(textcounter, True, (255, 255, 255)), (550, 30))
         pygame.display.flip()
-        clock.tick(60)
