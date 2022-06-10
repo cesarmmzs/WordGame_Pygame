@@ -1,0 +1,18 @@
+Dificulade: Facil
+Tempo: 8s
+Taxa de acerto: 100.0%
+Dificulade: Medio
+Tempo: 12s
+Taxa de acerto: 100.00%
+Dificulade: Dificil
+Tempo: 19s
+Taxa de acerto: 90.00%
+Dificulade: Dificil
+Tempo: 17s
+Taxa de acerto: 50.00%
+Dificulade: Medio
+Tempo: 15s
+Taxa de acerto: 46.67%
+Dificulade: Dificil
+Tempo: 12s
+Taxa de acerto: 100.00%

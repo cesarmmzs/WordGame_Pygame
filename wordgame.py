@@ -8,199 +8,206 @@ import os
 main_dir = os.path.dirname(__file__)
 img_dir = os.path.join(main_dir, 'imagens')
 font_dir = os.path.join(main_dir, 'fontes')
-
+score_dir = os.path.join(main_dir, 'scores')
 pygame.init()
 
 # Largura e Altura da Página
 w = 900
 h = 675
-
-# Algoritmo para randomizar a posição das palavras na tela (AUTO)
-i_cont = []
-word_pos = (
-    (120, 60),
-    (120, 125),
-    (120, 190),
-    (120, 255),
-    (120, 320),
-    (120,385),
-    (120, 450),
-    (120, 515),
-    (120, 580)
-)
-random_word_pos = []
-for p in range (len(word_pos)):
-    i = randint(0, len(word_pos)-1)
-    i_cont.append(i)
-
-    while (i_cont.count(i) > 1):
-        i_cont.pop()
+screen = pygame.display.set_mode((w,h))
+while True:
+    # Algoritmo para randomizar a posição das palavras na tela (AUTO)
+    i_cont = []
+    word_pos = (
+        (120, 60),
+        (120, 125),
+        (120, 190),
+        (120, 255),
+        (120, 320),
+        (120,385),
+        (120, 450),
+        (120, 515),
+        (120, 580)
+    )
+    random_word_pos = []
+    for p in range (len(word_pos)):
         i = randint(0, len(word_pos)-1)
         i_cont.append(i)
-    random_word_pos.append(word_pos[i])
 
-# Algoritmo para randomizar a posição das imagens na tela (AUTO)
-i_cont = []
-img_pos = (
-    (350, 200),
-    (350, 400),
-    (350, 600),
-    (570, 200),
-    (570, 400),
-    (570, 600),
-    (800, 200),
-    (800, 400),
-    (800, 600)
-)
-random_img_pos = []
-for p in range (len(img_pos)):
-    i = randint(0, len(img_pos)-1)
-    i_cont.append(i)
+        while (i_cont.count(i) > 1):
+            i_cont.pop()
+            i = randint(0, len(word_pos)-1)
+            i_cont.append(i)
+        random_word_pos.append(word_pos[i])
 
-    while (i_cont.count(i) > 1):
-        i_cont.pop()
+    # Algoritmo para randomizar a posição das imagens na tela (AUTO)
+    i_cont = []
+    img_pos = (
+        (350, 200),
+        (350, 400),
+        (350, 600),
+        (570, 200),
+        (570, 400),
+        (570, 600),
+        (800, 200),
+        (800, 400),
+        (800, 600)
+    )
+    random_img_pos = []
+    for p in range (len(img_pos)):
         i = randint(0, len(img_pos)-1)
         i_cont.append(i)
-    random_img_pos.append(img_pos[i])
 
-# Lista de Palavras
-palavras = (
-    ('Car', 'Apple', 'Cellphone', 'House', 'Class', 'Door', 'Bike', 'Computer', 'Teacher'),
-    ('Earth', 'Target', 'Window', 'Crown', 'Whistle', 'Eyeliner', 'Cheese', 'Strawberry', 'Heaphone'),
-    ('Schedule', 'Squirrel', 'Dessert', 'Olives', 'Scissor', 'Moisturizer', 'Hurricane', 'Workout', 'Eye Shadow')
-)
+        while (i_cont.count(i) > 1):
+            i_cont.pop()
+            i = randint(0, len(img_pos)-1)
+            i_cont.append(i)
+        random_img_pos.append(img_pos[i])
 
-spritesheets = (
-    ('objectSpritesheet1.png','objectSpritesheet2.png','objectSpritesheet3.png'),
-    ('wordSpritesheet1.png','wordSpritesheet2.png','wordSpritesheet3.png'),
-    ('menuSpritesheet.png')
-)
+    # Lista de Palavras
+    palavras = (
+        ('Car', 'Apple', 'Cellphone', 'House', 'Class', 'Door', 'Bike', 'Computer', 'Teacher'),
+        ('Earth', 'Target', 'Window', 'Crown', 'Whistle', 'Eyeliner', 'Cheese', 'Strawberry', 'Heaphone'),
+        ('Schedule', 'Squirrel', 'Dessert', 'Olives', 'Scissor', 'Moisturizer', 'Hurricane', 'Workout', 'Eye Shadow')
+    )
 
-# Listas  de posições das Imagens dentro da Spritesheet -> subsurface
-object1_ss_xy = ((0,0), (0, 100), (0, 200))
-object2_ss_xy = ((100, 0), (100, 100), (100, 200))
-object3_ss_xy = ((200, 0), (200, 100), (200, 200))
-object4_ss_xy = ((300, 0), (300, 100), (300, 200))
-object5_ss_xy = ((400, 0), (400, 100), (400, 200))
-object6_ss_xy = ((500, 0), (500, 100), (500, 200))
-object7_ss_xy = ((600, 0), (600, 100), (600, 200))
-object8_ss_xy = ((700, 0), (700, 100), (700, 200))
-object9_ss_xy = ((800, 0), (800, 100), (800, 200))
+    spritesheets = (
+        ('objectSpritesheet1.png','objectSpritesheet2.png','objectSpritesheet3.png'),
+        ('wordSpritesheet1.png','wordSpritesheet2.png','wordSpritesheet3.png'),
+        ('menuSpritesheet.png')
+    )
 
-# Listas  de posições das Palavras dentro da Spritesheet -> subsurface
-word1_ss_xy = ((0,0), (200, 0), (400, 0))
-word2_ss_xy = ((0, 60), (200, 60), (400, 60))
-word3_ss_xy = ((0, 120), (200, 120), (400, 120))
-word4_ss_xy = ((0, 180), (200, 180), (400, 180))
-word5_ss_xy = ((0, 240), (200, 240), (400, 240))
-word6_ss_xy = ((0, 300), (200, 300), (400, 300))
-word7_ss_xy = ((0, 360), (200, 360), (400, 360))
-word8_ss_xy = ((0, 420), (200, 420), (400, 420))
-word9_xx_xy = ((0, 480), (200, 480), (400, 480))
+    # Listas  de posições das Imagens dentro da Spritesheet -> subsurface
+    object1_ss_xy = ((0,0), (0, 100), (0, 200))
+    object2_ss_xy = ((100, 0), (100, 100), (100, 200))
+    object3_ss_xy = ((200, 0), (200, 100), (200, 200))
+    object4_ss_xy = ((300, 0), (300, 100), (300, 200))
+    object5_ss_xy = ((400, 0), (400, 100), (400, 200))
+    object6_ss_xy = ((500, 0), (500, 100), (500, 200))
+    object7_ss_xy = ((600, 0), (600, 100), (600, 200))
+    object8_ss_xy = ((700, 0), (700, 100), (700, 200))
+    object9_ss_xy = ((800, 0), (800, 100), (800, 200))
 
-# Inicializando tela, plano de fundo e sprites que vão aparecer na tela
-screen = pygame.display.set_mode((w,h))
-menuspritesheet = pygame.image.load(os.path.join(img_dir, spritesheets[2])).convert_alpha()
-arrowlist1 = ((0,200), (200,200))
-arrowlist2 = ((100,200),(300,200))
+    # Listas  de posições das Palavras dentro da Spritesheet -> subsurface
+    word1_ss_xy = ((0,0), (200, 0), (400, 0))
+    word2_ss_xy = ((0, 60), (200, 60), (400, 60))
+    word3_ss_xy = ((0, 120), (200, 120), (400, 120))
+    word4_ss_xy = ((0, 180), (200, 180), (400, 180))
+    word5_ss_xy = ((0, 240), (200, 240), (400, 240))
+    word6_ss_xy = ((0, 300), (200, 300), (400, 300))
+    word7_ss_xy = ((0, 360), (200, 360), (400, 360))
+    word8_ss_xy = ((0, 420), (200, 420), (400, 420))
+    word9_xx_xy = ((0, 480), (200, 480), (400, 480))
 
-# Nome da Página, Utilização do Clock para definir FrameRate
-pygame.display.set_caption('Word Game - Aprendendo Inglês')
-clock = pygame.time.Clock()
-counter, textcounter = 0, '0'.rjust(2)
-pygame.time.set_timer(pygame.USEREVENT, 1000)
-font = pygame.font.Font(os.path.join(font_dir ,'rudiment.ttf'), 70)
-font2 = pygame.font.Font(os.path.join(font_dir ,'rudiment.ttf'), 40)
+    # Inicializando tela, plano de fundo e sprites que vão aparecer na tela
+    menuspritesheet = pygame.image.load(os.path.join(img_dir, spritesheets[2])).convert_alpha()
+    arrowlist1 = ((0,200), (200,200))
+    arrowlist2 = ((100,200),(300,200))
 
-#Sprites dos Menus
-class Init(pygame.sprite.Sprite):
-    def __init__(self):
-        pygame.sprite.Sprite.__init__(self)
-        self.init = False
-        self.image = menuspritesheet.subsurface((0, 0), (400, 100))
-        self.rect = self.image.get_rect()
-        self.rect.center = (450, 100)
-class Difficult(pygame.sprite.Sprite):
-    def __init__(self):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = menuspritesheet.subsurface((0, 100), (400, 100))
-        self.rect = self.image.get_rect()
-        self.rect.center = (450, 300)
-class Arrow1(pygame.sprite.Sprite):
-    def __init__(self):
-        pygame.sprite.Sprite.__init__(self)
-        self.animate = False
-        self.index = 0
-        self.image = menuspritesheet.subsurface(arrowlist1[self.index], (100, 100))
-        self.rect = self.image.get_rect()
-        self.rect.center = (220, 310)
+    # Nome da Página, Utilização do Clock para definir FrameRate
+    pygame.display.set_caption('Word Game - Aprendendo Inglês')
+    clock = pygame.time.Clock()
+    counter, textcounter = 0, '0'.rjust(2)
+    pygame.time.set_timer(pygame.USEREVENT, 1000)
+    font = pygame.font.Font(os.path.join(font_dir ,'rudiment.ttf'), 70)
+    font2 = pygame.font.Font(os.path.join(font_dir ,'rudiment.ttf'), 40)
 
-    def select(self):
-        self.animate = True
+    #Sprites dos Menus
+    '''class ScoresList(pygame.sprite.Sprite):
+        def __init__(self):
+            pygame.sprite.Sprite.__init__(self)
+            self.scoreinit = False
+            self.image = menuspritesheet.subsurface((0, 400), (400, 100))
+            self.rect = self.image.get_rect()
+            self.rect.center = (450, 550)'''
+    class Init(pygame.sprite.Sprite):
+        def __init__(self):
+            pygame.sprite.Sprite.__init__(self)
+            self.init = False
+            self.image = menuspritesheet.subsurface((0, 0), (400, 100))
+            self.rect = self.image.get_rect()
+            self.rect.center = (450, 100)
+    class Difficult(pygame.sprite.Sprite):
+        def __init__(self):
+            pygame.sprite.Sprite.__init__(self)
+            self.image = menuspritesheet.subsurface((0, 100), (400, 100))
+            self.rect = self.image.get_rect()
+            self.rect.center = (450, 300)
+    class Arrow1(pygame.sprite.Sprite):
+        def __init__(self):
+            pygame.sprite.Sprite.__init__(self)
+            self.animate = False
+            self.index = 0
+            self.image = menuspritesheet.subsurface(arrowlist1[self.index], (100, 100))
+            self.rect = self.image.get_rect()
+            self.rect.center = (220, 310)
 
-    def update(self):
-        if self.animate == True:
-            self.index += 0.5
-            if self.index >= len(arrowlist1):
-                self.index = 0
-                self.animate = False
-            self.image = menuspritesheet.subsurface(arrowlist1[int(self.index)], (100, 100))
-class Arrow2(pygame.sprite.Sprite):
-    def __init__(self):
-        pygame.sprite.Sprite.__init__(self)
-        self.animate = False
-        self.index = 0
-        self.image = menuspritesheet.subsurface(arrowlist2[self.index], (100, 100))
-        self.rect = self.image.get_rect()
-        self.rect.center = (670, 310)
+        def select(self):
+            self.animate = True
 
-    def select(self):
-        self.animate = True
+        def update(self):
+            if self.animate == True:
+                self.index += 0.5
+                if self.index >= len(arrowlist1):
+                    self.index = 0
+                    self.animate = False
+                self.image = menuspritesheet.subsurface(arrowlist1[int(self.index)], (100, 100))
+    class Arrow2(pygame.sprite.Sprite):
+        def __init__(self):
+            pygame.sprite.Sprite.__init__(self)
+            self.animate = False
+            self.index = 0
+            self.image = menuspritesheet.subsurface(arrowlist2[self.index], (100, 100))
+            self.rect = self.image.get_rect()
+            self.rect.center = (670, 310)
 
-    def update(self):
-        if self.animate == True:
-            self.index += 0.5
-            if self.index >= len(arrowlist2):
-                self.index = 0
-                self.animate = False
-            self.image = menuspritesheet.subsurface(arrowlist2[int(self.index)], (100, 100))
+        def select(self):
+            self.animate = True
 
-difficult_list = ((400, 200), (0, 300), (400, 300))
-class DifficultSet(pygame.sprite.Sprite):
+        def update(self):
+            if self.animate == True:
+                self.index += 0.5
+                if self.index >= len(arrowlist2):
+                    self.index = 0
+                    self.animate = False
+                self.image = menuspritesheet.subsurface(arrowlist2[int(self.index)], (100, 100))
 
-    def __init__(self):
-        pygame.sprite.Sprite.__init__(self)
-        self.difficult = 0
-        self.image = menuspritesheet.subsurface(difficult_list[self.difficult], (400, 100))
-        self.rect = self.image.get_rect()
-        self.rect.center = (450, 400)
+    difficult_list = ((400, 200), (0, 300), (400, 300))
+    class DifficultSet(pygame.sprite.Sprite):
 
-    def difficultDecrease(self):
-        if self.difficult == 0:
-            pass
-        else:
-            arrow1.select()
-            self.difficult -= 1
+        def __init__(self):
+            pygame.sprite.Sprite.__init__(self)
+            self.difficult = 0
             self.image = menuspritesheet.subsurface(difficult_list[self.difficult], (400, 100))
-    def difficultIncrease(self):
-        if self.difficult == 2:
-            pass
-        else:
-            arrow2.select()
-            self.difficult += 1
-            self.image = menuspritesheet.subsurface(difficult_list[self.difficult], (400, 100))
+            self.rect = self.image.get_rect()
+            self.rect.center = (450, 400)
 
-# Instanciando Objetos de Sprites
+        def difficultDecrease(self):
+            if self.difficult == 0:
+                pass
+            else:
+                arrow1.select()
+                self.difficult -= 1
+                self.image = menuspritesheet.subsurface(difficult_list[self.difficult], (400, 100))
+        def difficultIncrease(self):
+            if self.difficult == 2:
+                pass
+            else:
+                arrow2.select()
+                self.difficult += 1
+                self.image = menuspritesheet.subsurface(difficult_list[self.difficult], (400, 100))
 
-# Menu
-all_menu_sprites = pygame.sprite.Group()
-initgame = Init()
-difficult = Difficult()
-difficult_set = DifficultSet()
-arrow1 = Arrow1()
-arrow2 = Arrow2()
-all_menu_sprites.add(initgame, difficult, difficult_set, arrow1, arrow2)
-while True:
+    # Instanciando Objetos de Sprites
+
+    # Menu
+    all_menu_sprites = pygame.sprite.Group()
+    #scoreslist = ScoresList()
+    initgame = Init()
+    difficult = Difficult()
+    difficult_set = DifficultSet()
+    arrow1 = Arrow1()
+    arrow2 = Arrow2()
+    all_menu_sprites.add(initgame, difficult, difficult_set, arrow1, arrow2)
     # ------------- MENU -------------------
     while initgame.init == False:
         screen.fill((255, 255, 255))
@@ -243,16 +250,18 @@ while True:
         indice_palavras_selecionadas = 0
         indice_objetos_selecionados = 0
         onscreen_objects = 5
+        dificuldade = 'Facil'
 
     elif difficult_set.difficult == 1:
         indice_palavras_selecionadas = 1
         indice_objetos_selecionados = 1
         onscreen_objects = 7
-
+        dificuldade = 'Medio'
     elif difficult_set.difficult == 2:
         indice_palavras_selecionadas = 2
         indice_objetos_selecionados = 2
         onscreen_objects = 9
+        dificuldade = 'Dificil'
 
     palavras_selecionadas = palavras[indice_palavras_selecionadas]
     spritesheet = pygame.image.load(os.path.join(img_dir, spritesheets[0][indice_objetos_selecionados])).convert_alpha()
@@ -863,16 +872,57 @@ while True:
         object9word.unselect()
 
     # Lista que será usada para randomizar quais objetos aparecerá na tela
-    lista_img = [object1, object2, object3, object4, object5, object6, object7, object8, object9]
+    lista_img = [
+        object1,
+        object2,
+        object3,
+        object4,
+        object5,
+        object6,
+        object7,
+        object8,
+        object9
+        ]
     # Lista que será usada para randomizar quais palavras aparecerá na tela
-    lista_palavras = [object1word, object2word, object3word, object4word, object5word, object6word, object7word, object8word, object9word]
+    lista_palavras = [
+        object1word,
+        object2word,
+        object3word,
+        object4word,
+        object5word,
+        object6word,
+        object7word,
+        object8word,
+        object9word
+        ]
 
     select_match = []
     select_true = []
     # Variável que será utilizada para determinar que as spritesheets só serão randomizadas uma vez
     random_list = True
     endgame = False
+    endscore = False
+    tries = 0
     background = pygame.image.load(os.path.join(img_dir, 'wordgame_bg.jpg')).convert()
+    # -------------------- SCORES ------------------
+    '''while endscore == False:
+        screen.fill((255, 255, 255))
+        clock.tick(60)
+        # Recebe a posição do mouse na tela
+        mx, my = pygame.mouse.get_pos()
+        loc = [mx, my]
+        click = []
+
+        # Recebe inputs de Eventos
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                exit()
+
+            if event.type == MOUSEBUTTONDOWN:
+                click = loc
+                click_area = pygame.draw.rect(screen, (0,0,0), (click[0], click[1], 10, 10))'''
+
 
     # -------------------- JOGO --------------------
     while endgame == False:
@@ -1088,59 +1138,87 @@ while True:
                 object1.confirm_success()
                 object1word.confirm_success()
                 select_true.append(True)
+                tries += 1
 
             elif ((select_match[0] == palavras_selecionadas[1]) and (select_match[1] == palavras_selecionadas[1])):
                 object2.confirm_success()
                 object2word.confirm_success()
                 select_true.append(True)
+                tries += 1
             
             elif ((select_match[0] == palavras_selecionadas[2]) and (select_match[1] == palavras_selecionadas[2])):
                 object3.confirm_success()
                 object3word.confirm_success()
                 select_true.append(True)
+                tries += 1
 
             elif ((select_match[0] == palavras_selecionadas[3]) and (select_match[1] == palavras_selecionadas[3])):
                 object4.confirm_success()
                 object4word.confirm_success()
                 select_true.append(True)
+                tries += 1
 
             elif ((select_match[0] == palavras_selecionadas[4]) and (select_match[1] == palavras_selecionadas[4])):
                 object5.confirm_success()
                 object5word.confirm_success()
                 select_true.append(True)
+                tries += 1
 
             elif ((select_match[0] == palavras_selecionadas[5]) and (select_match[1] == palavras_selecionadas[5])):
                 object6.confirm_success()
                 object6word.confirm_success()
                 select_true.append(True)
+                tries += 1
 
             elif ((select_match[0] == palavras_selecionadas[6]) and (select_match[1] == palavras_selecionadas[6])):
                 object7.confirm_success()
                 object7word.confirm_success()
                 select_true.append(True)
+                tries += 1
 
             elif ((select_match[0] == palavras_selecionadas[7]) and (select_match[1] == palavras_selecionadas[7])):
                 object8.confirm_success()
                 object8word.confirm_success()
                 select_true.append(True)
+                tries += 1
             
             elif ((select_match[0] == palavras_selecionadas[8]) and (select_match[1] == palavras_selecionadas[8])):
                 object9.confirm_success()
                 object9word.confirm_success()
                 select_true.append(True)
+                tries += 1
 
             else:
                 unselect_all_objects()
                 unselect_all_words()
+                tries += 1
             # AO FINAL DA VERIFICAÇÃO, ZERA A LISTA PARA UMA NOVA ITERAÇÃO
             select_match= []
         
         if select_true.count(True) == onscreen_objects:
-            end_msg = 'Fim de Jogo! Clique em qualquer lugar para retornar ao menu'
+            # É EXIBIDO NA TELA AO ACABAR O JOGO
+            end_msg = 'Fim de Jogo! Clique para retornar ao menu'
             texto_formatado = font2.render(end_msg, True, (0, 0, 0))
             textbox = texto_formatado.get_rect()
 
+            # Misc
             endgame = True
+            select_true = []
+            tempo = counter
+            taxa_acerto = '{0:.2f}'.format(((onscreen_objects/tries)*100))
+            # SALVA INFORMAÇÕES NO ARQUIVO DE TEXTO
+            with open(os.path.join(score_dir,'scores.txt'),'a+') as save:
+                save.write(f'Dificulade: {dificuldade}\nTempo: {tempo}s\nTaxa de acerto: {taxa_acerto}%\n')
+            #Listar Scores
+            with open(os.path.join(score_dir,'scores.txt'), 'r') as save:
+                contlinha = 1
+                for linha in save:
+                    if contlinha < 3:
+                        print(linha, end='')
+                        contlinha+=1
+                    else:
+                        print(linha)
+                        contlinha = 1
             while endgame:
                 screen.fill((255, 255, 255))
                 for event in pygame.event.get():        
@@ -1149,10 +1227,11 @@ while True:
                         exit()
                     if event.type == MOUSEBUTTONDOWN:
                         endgame = False
-                            
-                textbox.center = (w//2, h//2)
+                       
+                textbox.center = (450, h//2)
                 screen.blit(texto_formatado, textbox)
                 pygame.display.update()
-            
+            break
+            break
         screen.blit(font.render(textcounter, True, (255, 255, 255)), (550, 30))
         pygame.display.flip()
