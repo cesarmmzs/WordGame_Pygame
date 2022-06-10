@@ -1209,9 +1209,11 @@ while True:
             # SALVA INFORMAÇÕES NO ARQUIVO DE TEXTO
             with open(os.path.join(score_dir,'scores.txt'),'a+') as save:
                 save.write(f'Dificulade: {dificuldade}\nTempo: {tempo}s\nTaxa de acerto: {taxa_acerto}%\n')
+                
             #Listar Scores
             with open(os.path.join(score_dir,'scores.txt'), 'r') as save:
                 contlinha = 1
+                print('Estatísticas de Jogo:')
                 for linha in save:
                     if contlinha < 3:
                         print(linha, end='')
@@ -1219,6 +1221,7 @@ while True:
                     else:
                         print(linha)
                         contlinha = 1
+
             while endgame:
                 screen.fill((255, 255, 255))
                 for event in pygame.event.get():        
